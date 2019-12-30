@@ -19,7 +19,7 @@ if (NOT tungsten_POPULATED)
     add_subdirectory(${tungsten_SOURCE_DIR} ${tungsten_BINARY_DIR})
 endif ()
 
-list(APPEND CMAKE_MODULE_PATH ${Tungsten_SOURCE_DIR}/tools/cmake)
+list(APPEND CMAKE_MODULE_PATH ${tungsten_SOURCE_DIR}/tools/cmake)
 
 include(TungstenTargetEmbedShaders)
 
