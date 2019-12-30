@@ -11,9 +11,13 @@ project(Cirles)
 set(CMAKE_CXX_STANDARD 17)
 
 include(FetchContent)
-FetchContent_Declare(Tungsten
+FetchContent_Declare(tungsten
     GIT_REPOSITORY "https://github.com/jebreimo/Tungsten.git")
-FetchContent_MakeAvailable(Tungsten)
+FetchContent_GetProperties(tungsten)
+if (NOT tungsten_POPULATED)
+    FetchContent_Populate(tungsten)
+    add_subdirectory(${tungsten_SOURCE_DIR} ${tungsten_BINARY_DIR})
+endif ()
 
 list(APPEND CMAKE_MODULE_PATH ${Tungsten_SOURCE_DIR}/tools/cmake)
 
