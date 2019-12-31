@@ -11,22 +11,20 @@
 
 void CirclesShaderProgram::setup()
 {
-    program = Tungsten::createProgram();
-    auto vertexShader = Tungsten::createShader(GL_VERTEX_SHADER,
-                                               Circles_vert);
-    Tungsten::attachShader(program, vertexShader);
+    using namespace Tungsten;
+    program = createProgram();
+    auto vertexShader = createShader(GL_VERTEX_SHADER, Circles_vert);
+    attachShader(program, vertexShader);
 
-    auto fragmentShader = Tungsten::createShader(GL_FRAGMENT_SHADER,
-                                                 Circles_frag);
-    Tungsten::attachShader(program, fragmentShader);
-    Tungsten::linkProgram(program);
-    Tungsten::useProgram(program);
+    auto fragmentShader = createShader(GL_FRAGMENT_SHADER, Circles_frag);
+    attachShader(program, fragmentShader);
+    linkProgram(program);
+    useProgram(program);
 
-    positionAttribute = Tungsten::getVertexAttribute(program, "a_Position");
-    centerPoint = Tungsten::getUniform<Xyz::Vector2f>(
-            program, "u_CenterPoint");
-    xFactor = Tungsten::getUniform<float>(program, "u_XFactor");
-    yFactor = Tungsten::getUniform<float>(program, "u_YFactor");
-    phase = Tungsten::getUniform<float>(program, "u_Phase");
-    threshold = Tungsten::getUniform<float>(program, "u_Threshold");
+    positionAttribute = getVertexAttribute(program, "a_Position");
+    centerPoint = getUniform<Xyz::Vector2f>(program, "u_CenterPoint");
+    xParams = getUniform<Xyz::Vector2f>(program, "u_XParams");
+    yParams = getUniform<Xyz::Vector2f>(program, "u_YParams");
+    phase = getUniform<float>(program, "u_Phase");
+    threshold = getUniform<float>(program, "u_Threshold");
 }

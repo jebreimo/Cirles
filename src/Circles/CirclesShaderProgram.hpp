@@ -14,8 +14,8 @@ public:
     void setup();
 
     Tungsten::ProgramHandle program;
-    Tungsten::Uniform<float> xFactor;
-    Tungsten::Uniform<float> yFactor;
+    Tungsten::Uniform<Xyz::Vector2f> xParams;
+    Tungsten::Uniform<Xyz::Vector2f> yParams;
     Tungsten::Uniform<Xyz::Vector2f> centerPoint;
     Tungsten::Uniform<float> phase;
     Tungsten::Uniform<float> threshold;

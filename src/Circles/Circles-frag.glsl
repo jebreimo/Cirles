@@ -8,18 +8,18 @@
 #version 100
 
 uniform highp vec2 u_CenterPoint;
-uniform highp float u_XFactor;
-uniform highp float u_YFactor;
+uniform highp vec2 u_XParams;
+uniform highp vec2 u_YParams;
 uniform highp float u_Phase;
 uniform highp float u_Threshold;
 
 void main()
 {
     highp vec2 p = vec2(gl_FragCoord);
-    p.x *= u_XFactor;
-    p.y *= u_YFactor;
+    p.x = p.x * u_XParams[0] + u_XParams[1];
+    p.y = p.y * u_YParams[0] + u_YParams[0];
     p = u_CenterPoint - p;
-    highp float value = sin(50.0 * sqrt(dot(p, p)) + u_Phase);
+    highp float value = sin(25.0 * sqrt(dot(p, p)) + u_Phase);
     if (value < u_Threshold)
         discard;
     gl_FragColor = vec4(1.0, 1.0, 1.0, 0.5);
