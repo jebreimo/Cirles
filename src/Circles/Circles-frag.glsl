@@ -15,9 +15,8 @@ uniform highp float u_Threshold;
 
 void main()
 {
-    highp vec2 p = vec2(gl_FragCoord);
-    p.x = p.x * u_XParams[0] + u_XParams[1];
-    p.y = p.y * u_YParams[0] + u_YParams[0];
+    highp vec2 p = vec2(gl_FragCoord.x * u_XParams[0] + u_XParams[1],
+                        gl_FragCoord.y * u_YParams[0] + u_YParams[1]);
     p = u_CenterPoint - p;
     highp float value = sin(25.0 * sqrt(dot(p, p)) + u_Phase);
     if (value < u_Threshold)
