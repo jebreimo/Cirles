@@ -25,7 +25,8 @@ void CirclesShaderProgram::setup()
     positionAttribute = Tungsten::getVertexAttribute(program, "a_Position");
     centerPoint = Tungsten::getUniform<Xyz::Vector2f>(
             program, "u_CenterPoint");
-    aspectRatio = Tungsten::getUniform<float>(program, "u_AspectRatio");
+    xFactor = Tungsten::getUniform<float>(program, "u_XFactor");
+    yFactor = Tungsten::getUniform<float>(program, "u_YFactor");
     phase = Tungsten::getUniform<float>(program, "u_Phase");
     threshold = Tungsten::getUniform<float>(program, "u_Threshold");
 }

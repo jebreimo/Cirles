@@ -48,15 +48,17 @@ public:
     {
         glClearColor(0, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        m_Program.aspectRatio.set(aspectRatio());
+        auto [w, h] = windowSize();
+        m_Program.xFactor.set(1 / float(h));
+        m_Program.yFactor.set(1 / float(h));
 
         auto time = getTime();
         m_Program.threshold.set(float(cos(time) * 0.299 + 0.7));
-        auto p = Xyz::rotate3(time * 0.8) * Xyz::Vector3d{-0.5, 0.5, 1.0};
-        m_Program.centerPoint.set(Xyz::Vector2f{float(p[0]), float(p[1])});
+        auto p = Xyz::rotate3(time * 0.8) * Xyz::Vector3d{-0.25, 0.25, 1.0};
+        m_Program.centerPoint.set(Xyz::Vector2f{float(p[0] + 0.5), float(p[1] + 0.5)});
         Tungsten::drawElements(GL_TRIANGLES, m_ElementCount, GL_UNSIGNED_SHORT);
-        p = Xyz::rotate3(time * 1.3) * Xyz::Vector3d{0.5, 0.0, 1.0};
-        m_Program.centerPoint.set(Xyz::Vector2f{float(p[0]), float(p[1])});
+        p = Xyz::rotate3(time * 1.3) * Xyz::Vector3d{0.25, 0.0, 1.0};
+        m_Program.centerPoint.set(Xyz::Vector2f{float(p[0] + 0.5), float(p[1] + 0.5)});
         m_Program.threshold.set(float(cos(time * 0.5) * 0.299 + 0.7));
         Tungsten::drawElements(GL_TRIANGLES, m_ElementCount, GL_UNSIGNED_SHORT);
     }
@@ -68,12 +70,15 @@ private:
     GLsizei m_ElementCount = 0;
 };
 
-int main()
+int main(int argc, char* argv[])
 {
     CirclesApp app;
     try
     {
-        app.run();
+        Tungsten::WindowParameters windowParameters;
+        if (argc > 1)
+            windowParameters.flags = SDL_WINDOW_FULLSCREEN_DESKTOP;
+        app.run(windowParameters);
     }
     catch (Tungsten::GlError& ex)
     {
