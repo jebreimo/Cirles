@@ -17,10 +17,10 @@ double getTime()
     return time.count();
 }
 
-class CirclesApp : public Tungsten::SdlApplication
+class Circles : public Tungsten::EventLoop
 {
 public:
-    void setup() override
+    void onStartup(Tungsten::SdlApplication&) override
     {
         m_VertexArray = Tungsten::generateVertexArray();
         Tungsten::bindVertexArray(m_VertexArray);
@@ -37,18 +37,18 @@ public:
         Tungsten::enableVertexAttribute(m_Program.positionAttribute);
     }
 
-    void update() override
+    void onUpdate(Tungsten::SdlApplication&) override
     {
         m_Program.phase.set(float(m_Phase * 0.01));
         if (++m_Phase > 628)
             m_Phase = 0;
     }
 
-    void draw() override
+    void onDraw(Tungsten::SdlApplication& app) override
     {
         glClearColor(0, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        auto [w, h] = windowSize();
+        auto [w, h] = app.windowSize();
         auto aspect = 1 / float(h);
         m_Program.xParams.set({2 * aspect, -1 * float(w) * aspect});
         m_Program.yParams.set({2 * aspect, -1});
@@ -73,15 +73,13 @@ private:
 
 int main(int argc, char* argv[])
 {
-    CirclesApp app;
     try
     {
-        Tungsten::WindowParameters windowParameters;
-        if (argc == 2 && argv[1] == std::string("--fullscreen"))
-            windowParameters.flags = SDL_WINDOW_FULLSCREEN_DESKTOP;
-        app.run(windowParameters);
+        Tungsten::SdlApplication app("Circles", std::make_unique<Circles>());
+        app.parseCommandLineOptions(argc, argv);
+        app.run();
     }
-    catch (Tungsten::GlError& ex)
+    catch (std::exception& ex)
     {
         std::cout << ex.what() << "\n";
         return 1;
